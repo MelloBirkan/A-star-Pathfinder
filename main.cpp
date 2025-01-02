@@ -1,22 +1,22 @@
-#include <iostream>
-#include <vector>
-#include <string>
 #include <fstream>
+#include <iostream>
+#include <string>
+#include <vector>
 
-using std::vector;
-using std::string;
 using std::ifstream;
+using std::string;
+using std::vector;
 
-auto printBoard(const vector<vector<int>>& board) -> void {
-  for (const auto& row: board) {
-    for (const auto& cell: row) {
+auto printBoard(const vector<vector<int>> &board) -> void {
+  for (const auto &row: board) {
+    for (const auto &cell: row) {
       std::cout << cell << " ";
     }
     std::cout << "\n";
   }
 }
 
-auto readBoardFile(const string& filename) -> vector<vector<int>> {
+auto readBoardFile(const string &filename) -> vector<vector<int>> {
   ifstream boardFile(filename);
   vector<vector<int>> board;
 
@@ -32,14 +32,13 @@ auto readBoardFile(const string& filename) -> vector<vector<int>> {
 }
 
 auto main() -> int {
-  vector<vector<int>> board = {
+  const vector<vector<int>> board = {
     {0, 1, 0, 0, 0, 0},
  {0, 1, 0, 0, 0, 0},
  {0, 1, 0, 0, 0, 0},
  {0, 1, 0, 0, 0, 0},
  {0, 0, 0, 0, 1, 0}
   };
-
 
   printBoard(board);
   readBoardFile("../board1.txt");
