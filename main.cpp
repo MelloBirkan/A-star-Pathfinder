@@ -1,13 +1,24 @@
 #include <fstream>
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <vector>
-#include <sstream>
 
-using std::istringstream;
 using std::ifstream;
+using std::istringstream;
 using std::string;
 using std::vector;
+
+enum class State { kEmpty, kObstacle };
+
+auto cellString(State cell) -> string {
+  switch (cell) {
+    case State::kEmpty:
+      return "0 ";
+    default:
+      return "⛰ ";
+  }
+}
 
 auto printBoard(const vector<vector<int>> &board) -> void {
   for (const auto &row: board) {
@@ -46,7 +57,6 @@ auto readBoardFile(const string &filename) -> vector<vector<int>> {
   }
   return board;
 }
-
 
 
 auto main() -> int {
