@@ -20,35 +20,39 @@ auto cellString(State cell) -> string {
   }
 }
 
-auto printBoard(const vector<vector<int>> &board) -> void {
+auto printBoard(const vector<vector<State>> &board) -> void {
   for (const auto &row: board) {
     for (const auto &cell: row) {
-      std::cout << cell << " ";
+      std::cout << cellString(cell) << " ";
     }
     std::cout << "\n";
   }
 }
 
-auto parseLine(string line) -> vector<int> {
+auto parseLine(string line) -> vector<State> {
   istringstream lineStream(line);
   int n;
   char c;
-  vector<int> row;
+  vector<State> row;
 
   while (lineStream >> n >> c && c == ',') {
-    row.push_back(n);
+    if (n == 1) {
+      row.push_back(State::kObstacle);
+    } else {
+      row.push_back(State::kEmpty);
+    }
   }
 
   return row;
 }
 
-auto readBoardFile(const string &filename) -> vector<vector<int>> {
+auto readBoardFile(const string &filename) -> vector<vector<State>> {
   ifstream boardFile(filename);
-  vector<vector<int>> board;
+  vector<vector<State>> board;
 
   if (!boardFile) {
     std::cout << "Could not open board file" << std::endl;
-    return vector<vector<int>>();
+    return vector<vector<State>>();
   }
 
   string line;
