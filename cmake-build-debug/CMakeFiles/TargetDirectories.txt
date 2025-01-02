@@ -1,0 +1,3 @@
+/Users/marcellogonzattobirkan/Developer/Langs/CPP/a*/cmake-build-debug/CMakeFiles/a_.dir
+/Users/marcellogonzattobirkan/Developer/Langs/CPP/a*/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/marcellogonzattobirkan/Developer/Langs/CPP/a*/cmake-build-debug/CMakeFiles/rebuild_cache.dir
