@@ -2,7 +2,9 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <sstream>
 
+using std::istringstream;
 using std::ifstream;
 using std::string;
 using std::vector;
@@ -16,6 +18,19 @@ auto printBoard(const vector<vector<int>> &board) -> void {
   }
 }
 
+auto parseLine(string line) -> vector<int> {
+  istringstream lineStream(line);
+  int n;
+  char c;
+  vector<int> row;
+
+  while (lineStream >> n >> c && c == ',') {
+    row.push_back(n);
+  }
+
+  return row;
+}
+
 auto readBoardFile(const string &filename) -> vector<vector<int>> {
   ifstream boardFile(filename);
   vector<vector<int>> board;
@@ -27,20 +42,14 @@ auto readBoardFile(const string &filename) -> vector<vector<int>> {
 
   string line;
   while (getline(boardFile, line)) {
-    std::cout << line << "\n";
+    board.push_back(parseLine(line));
   }
+  return board;
 }
 
-auto main() -> int {
-  const vector<vector<int>> board = {
-    {0, 1, 0, 0, 0, 0},
- {0, 1, 0, 0, 0, 0},
- {0, 1, 0, 0, 0, 0},
- {0, 1, 0, 0, 0, 0},
- {0, 0, 0, 0, 1, 0}
-  };
 
-  printBoard(board);
-  readBoardFile("../board1.txt");
+
+auto main() -> int {
+  printBoard(readBoardFile("../board1.txt"));
   return 0;
 }
