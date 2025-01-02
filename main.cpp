@@ -64,7 +64,7 @@ auto readBoardFile(const string &filename) -> vector<vector<State>> {
 
 
 auto main() -> int {
-  auto board = readBoardFile("../board1.txt");
+  auto board = readBoardFile("../1.board");
   printBoard(board);
 
   return 0;
