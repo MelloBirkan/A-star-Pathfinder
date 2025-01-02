@@ -50,6 +50,8 @@ auto readBoardFile(const string &filename) -> vector<vector<int>> {
 
 
 auto main() -> int {
-  printBoard(readBoardFile("../board1.txt"));
+  auto board = readBoardFile("../board1.txt");
+  printBoard(board);
+
   return 0;
 }
