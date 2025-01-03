@@ -29,7 +29,7 @@ auto printBoard(const vector<vector<State>> &board) -> void {
   }
 }
 
-auto parseLine(string line) -> vector<State> {
+auto parseLine(const string &line) -> vector<State> {
   istringstream lineStream(line);
   int n;
   char c;
@@ -52,7 +52,7 @@ auto readBoardFile(const string &filename) -> vector<vector<State>> {
 
   if (!boardFile) {
     std::cout << "Could not open board file" << std::endl;
-    return vector<vector<State>>();
+    return {};
   }
 
   string line;
@@ -62,9 +62,21 @@ auto readBoardFile(const string &filename) -> vector<vector<State>> {
   return board;
 }
 
+// MARK: a*
+
+auto search(const vector<vector<State>> &board, std::array<int, 2> startPosition, std::array<int, 2> endPosition)
+    -> vector<vector<State>> {
+  std::cerr << "No Path found\n";
+  return {};
+}
+
 
 auto main() -> int {
-  auto board = readBoardFile("../1.board");
+  std::array<int, 2> init = {0, 0};
+  std::array<int, 2> goal = {5, 4};
+  vector<vector<State>> board = readBoardFile("../1.board");
+  vector<vector<State>> solution = search(board, init, goal);
+
   printBoard(board);
 
   return 0;
