@@ -1,9 +1,9 @@
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <string>
 #include <vector>
-#include <algorithm>
 
 using std::ifstream;
 using std::istringstream;
@@ -12,7 +12,7 @@ using std::vector;
 
 enum class State { kEmpty, kObstacle, kClosed, kPath };
 
-auto compare(vector<int> nodeLhs, vector<int> nodeRhs) -> bool {
+auto compare(const vector<int> &nodeLhs, const vector<int> &nodeRhs) -> bool {
   const int fLhs = nodeLhs[2] + nodeLhs[3];
   const int fRhs = nodeRhs[2] + nodeRhs[3];
 
@@ -20,12 +20,11 @@ auto compare(vector<int> nodeLhs, vector<int> nodeRhs) -> bool {
 }
 
 
-auto cellString(State cell) -> string {
-  switch (cell) {
-    case State::kEmpty:
-      return "0 ";
-    default:
-      return "⛰ ";
+auto cellString(const State cell) -> string {
+  switch(cell) {
+    case State::kObstacle: return "⛰️   ";
+    case State::kPath: return "🚗   ";
+    default: return "0   ";
   }
 }
 
@@ -73,8 +72,19 @@ auto readBoardFile(const string &filename) -> vector<vector<State>> {
 
 // MARK: a*
 
+auto checkValidCell(const int x, const int y, const vector<vector<State>> &grid) -> bool {
+  if (x >= 0 && x <= grid.size() && y >= 0 && y <= grid[0].size()) {
+    if (grid[x][y] == State::kEmpty) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 auto ceilSort(vector<vector<int>> &v) -> void {
-  std:std::sort(v.begin(), v.end(), compare);
+std:
+  std::sort(v.begin(), v.end(), compare);
 }
 
 auto addToOpen(int x, int y, int g, int h, vector<vector<int>> &openNodes, vector<vector<State>> &grid) -> void {
