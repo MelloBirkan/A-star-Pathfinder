@@ -11,6 +11,14 @@ using std::vector;
 
 enum class State { kEmpty, kObstacle, kClosed };
 
+auto compare(vector<int> nodeLhs, vector<int> nodeRhs) -> bool {
+  const int fLhs = nodeLhs[2] + nodeLhs[3];
+  const int fRhs = nodeRhs[2] + nodeRhs[3];
+
+  return fLhs > fRhs;
+}
+
+
 auto cellString(State cell) -> string {
   switch (cell) {
     case State::kEmpty:
@@ -69,19 +77,22 @@ auto addToOpen(int x, int y, int g, int h, vector<vector<int>> &openNodes, vecto
   openNodes.push_back(node);
 
   grid[x][y] = State::kClosed;
-
 }
 
-auto search(const vector<vector<State>> &board, std::array<int, 2> startPosition, std::array<int, 2> endPosition)
+auto heuristic(const int x1, const int y1, const int x2, const int y2) -> int { return abs(x1 - x2) + abs(y1 - y2); }
+
+auto search(vector<vector<State>> board, std::array<int, 2> startPosition, std::array<int, 2> endPosition)
     -> vector<vector<State>> {
+  vector<vector<int>> openNodes;
+  int x = startPosition[0];
+  int y = startPosition[1];
+  int h = heuristic(x, y, endPosition[0], endPosition[1]);
+
+  addToOpen(x, y, 0, h, openNodes, board);
+
   std::cerr << "No Path found\n";
   return {};
 }
-
-auto heuristic(const int x1, const int y1, const int x2, const int y2) -> int {
-  return abs(x1 - x2) + abs(y1 - y2);
-}
-
 
 auto main() -> int {
   std::array<int, 2> init = {0, 0};
