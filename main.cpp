@@ -3,13 +3,14 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 using std::ifstream;
 using std::istringstream;
 using std::string;
 using std::vector;
 
-enum class State { kEmpty, kObstacle, kClosed };
+enum class State { kEmpty, kObstacle, kClosed, kPath };
 
 auto compare(vector<int> nodeLhs, vector<int> nodeRhs) -> bool {
   const int fLhs = nodeLhs[2] + nodeLhs[3];
@@ -72,6 +73,10 @@ auto readBoardFile(const string &filename) -> vector<vector<State>> {
 
 // MARK: a*
 
+auto ceilSort(vector<vector<int>> &v) -> void {
+  std:std::sort(v.begin(), v.end(), compare);
+}
+
 auto addToOpen(int x, int y, int g, int h, vector<vector<int>> &openNodes, vector<vector<State>> &grid) -> void {
   vector<int> node = {x, y, g, h};
   openNodes.push_back(node);
@@ -81,14 +86,29 @@ auto addToOpen(int x, int y, int g, int h, vector<vector<int>> &openNodes, vecto
 
 auto heuristic(const int x1, const int y1, const int x2, const int y2) -> int { return abs(x1 - x2) + abs(y1 - y2); }
 
-auto search(vector<vector<State>> board, std::array<int, 2> startPosition, std::array<int, 2> endPosition)
+auto search(vector<vector<State>> grid, std::array<int, 2> startPosition, std::array<int, 2> endPosition)
     -> vector<vector<State>> {
   vector<vector<int>> openNodes;
   int x = startPosition[0];
   int y = startPosition[1];
   int h = heuristic(x, y, endPosition[0], endPosition[1]);
 
-  addToOpen(x, y, 0, h, openNodes, board);
+  addToOpen(x, y, 0, h, openNodes, grid);
+
+  while (!openNodes.empty()) {
+    ceilSort(openNodes);
+    vector<int> node = openNodes.back();
+    openNodes.pop_back();
+
+    x = node[0];
+    y = node[1];
+
+    grid[x][y] = State::kPath;
+
+    if (x == endPosition[0] && y == endPosition[1]) {
+      return grid;
+    }
+  }
 
   std::cerr << "No Path found\n";
   return {};
