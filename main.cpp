@@ -10,7 +10,7 @@ using std::istringstream;
 using std::string;
 using std::vector;
 
-enum class State { kEmpty, kObstacle, kClosed, kPath };
+enum class State { kEmpty, kObstacle, kClosed, kPath, kStart, kFinish };
 
 constexpr std::array<std::array<int, 2>, 4> delta = {{{-1, 0}, {0, -1}, {1, 0}, {0, 1}}};
 
@@ -22,13 +22,12 @@ auto compare(const vector<int> &nodeLhs, const vector<int> &nodeRhs) -> bool {
 }
 
 auto cellString(const State cell) -> string {
-  switch (cell) {
-    case State::kObstacle:
-      return "⛰️   ";
-    case State::kPath:
-      return "🚗   ";
-    default:
-      return "0   ";
+  switch(cell) {
+    case State::kObstacle: return "⛰️   ";
+    case State::kPath: return "🚗   ";
+    case State::kStart: return "🚦   ";
+    case State::kFinish: return "🏁   ";
+    default: return "0   ";
   }
 }
 
@@ -139,6 +138,8 @@ auto search(vector<vector<State>> grid, std::array<int, 2> startPosition, std::a
     grid[x][y] = State::kPath;
 
     if (x == endPosition[0] && y == endPosition[1]) {
+      grid[startPosition[0]][startPosition[1]] = State::kStart;
+      grid[endPosition[0]][endPosition[1]] = State::kFinish;
       return grid;
     }
 
