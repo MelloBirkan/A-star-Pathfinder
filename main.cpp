@@ -70,6 +70,10 @@ auto search(const vector<vector<State>> &board, std::array<int, 2> startPosition
   return {};
 }
 
+auto heuristic(const int x1, const int y1, const int x2, const int y2) -> int {
+  return abs(x1 - x2) + abs(y1 - y2);
+}
+
 
 auto main() -> int {
   std::array<int, 2> init = {0, 0};
