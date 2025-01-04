@@ -9,7 +9,7 @@ using std::istringstream;
 using std::string;
 using std::vector;
 
-enum class State { kEmpty, kObstacle };
+enum class State { kEmpty, kObstacle, kClosed };
 
 auto cellString(State cell) -> string {
   switch (cell) {
@@ -63,6 +63,14 @@ auto readBoardFile(const string &filename) -> vector<vector<State>> {
 }
 
 // MARK: a*
+
+auto addToOpen(int x, int y, int g, int h, vector<vector<int>> &openNodes, vector<vector<State>> &grid) -> void {
+  vector<int> node = {x, y, g, h};
+  openNodes.push_back(node);
+
+  grid[x][y] = State::kClosed;
+
+}
 
 auto search(const vector<vector<State>> &board, std::array<int, 2> startPosition, std::array<int, 2> endPosition)
     -> vector<vector<State>> {
